@@ -11,15 +11,16 @@ public class ParcelService {
     private List<Parcel> parcels = new ArrayList<>();
     private final ParcelRepository parcelRepository;
 
-    public ParcelService() {
+    public ParcelService() throws IOException {
         this(new ParcelRepository());
     }
 
-    public ParcelService(ParcelRepository parcelRepository) {
+    public ParcelService(ParcelRepository parcelRepository) throws IOException {
         this.parcelRepository = parcelRepository;
         lockers.add(new Locker(1, ParcelSize.SMALL));
         lockers.add(new Locker(2, ParcelSize.MEDIUM));
         lockers.add(new Locker(3, ParcelSize.LARGE));
+        restore(parcelRepository.load());
     }
 
     public long getFreeLockerCount() {
@@ -73,5 +74,18 @@ public class ParcelService {
 
     private void saveParcels() throws IOException {
         parcelRepository.save(List.copyOf(parcels));
+    }
+
+    private void restore(List<Parcel> loadedParcels) {
+        for (Parcel parcel : loadedParcels) {
+            parcels.add(parcel);
+            if (parcel.getStatus() == Parcel.Status.STORED) {
+                for (Locker locker : lockers) {
+                    if (locker.tryStore(parcel)) {
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

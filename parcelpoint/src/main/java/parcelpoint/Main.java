@@ -8,7 +8,13 @@ public class Main {
 
     // main code to get command and process command on line
     public static void main(String[] args) {
-        ParcelService service = new ParcelService();
+        ParcelService service;
+        try {
+            service = new ParcelService();
+        } catch (IOException e) {
+            System.err.println("Unable to read parcel data: " + e.getMessage());
+            return;
+        }
 
         try (Scanner in = new Scanner(System.in)) {
             System.out.println("Commands: store <code> <studentId> <size 1-3>, pickup <code> <days>, list, staff, quit");

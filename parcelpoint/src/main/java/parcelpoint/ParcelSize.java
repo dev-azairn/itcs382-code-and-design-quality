@@ -13,6 +13,10 @@ public enum ParcelSize {
         this.dailyFee = dailyFee;
     }
 
+    public int getCode() {
+        return code;
+    }
+
     public double getDailyFee() {
         return dailyFee;
     }
