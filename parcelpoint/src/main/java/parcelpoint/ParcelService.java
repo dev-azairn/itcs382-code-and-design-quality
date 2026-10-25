@@ -3,7 +3,9 @@ package parcelpoint;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.OptionalInt;
 
 public class ParcelService {
     private List<Locker> lockers = new ArrayList<>();
@@ -15,30 +17,32 @@ public class ParcelService {
         lockers.add(new Locker(3, ParcelSize.LARGE));
     }
 
-    public List<Locker> getLockers() {
-        return lockers;
+    public long getFreeLockerCount() {
+        return lockers.stream().filter(Locker::isFree).count();
     }
 
-    public Locker storeParcel(Parcel parcel) {
+    public List<Locker> getLockers() {
+        return Collections.unmodifiableList(lockers);
+    }
+
+    public OptionalInt storeParcel(Parcel parcel) {
         for (Locker locker : lockers) {
-            if (locker.isFree() && locker.getSize().canFit(parcel.getSize())) {
-                locker.setParcel(parcel);
+            if (locker.tryStore(parcel)) {
                 parcel.markStored();
                 parcels.add(parcel);
                 System.out.println("SMS to " + parcel.getStudentId() + ": parcel "
                         + parcel.getCode() + " is in locker " + locker.getNumber());
                 saveToFile();
-                return locker;
+                return OptionalInt.of(locker.getNumber());
             }
         }
-        return null;
+        return OptionalInt.empty();
     }
 
     public double pickUp(String code, int days) {
         for (Locker locker : lockers) {
-            Parcel parcel = locker.getParcel();
-            if (parcel != null && parcel.getCode().equals(code)) {
-                locker.setParcel(null);
+            Parcel parcel = locker.removeParcel(code);
+            if (parcel != null) {
                 parcel.markPickedUp();
                 saveToFile();
                 return fee(parcel, days);

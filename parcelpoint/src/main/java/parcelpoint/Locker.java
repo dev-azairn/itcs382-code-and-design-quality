@@ -22,8 +22,21 @@ public class Locker {
         return parcel;
     }
 
-    public void setParcel(Parcel parcel) {
+    boolean tryStore(Parcel parcel) {
+        if (!isFree() || !size.canFit(parcel.getSize())) {
+            return false;
+        }
         this.parcel = parcel;
+        return true;
+    }
+
+    Parcel removeParcel(String code) {
+        if (parcel == null || !parcel.getCode().equals(code)) {
+            return null;
+        }
+        Parcel removedParcel = parcel;
+        parcel = null;
+        return removedParcel;
     }
 
     public boolean isFree() {

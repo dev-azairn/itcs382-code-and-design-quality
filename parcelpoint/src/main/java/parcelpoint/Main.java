@@ -1,5 +1,6 @@
 package parcelpoint;
 
+import java.util.OptionalInt;
 import java.util.Scanner;
 
 public class Main {
@@ -77,8 +78,12 @@ public class Main {
         }
 
         Parcel parcel = new Parcel(words[1], words[2], size);
-        Locker locker = service.storeParcel(parcel);
-        System.out.println(locker == null ? "No free locker" : "Locker " + locker.getNumber());
+        OptionalInt lockerNumber = service.storeParcel(parcel);
+        if (lockerNumber.isPresent()) {
+            System.out.println("Locker " + lockerNumber.getAsInt());
+        } else {
+            System.out.println("No free locker");
+        }
     }
 
     private static void handlePickup(String[] words, ParcelService service) {
@@ -112,6 +117,6 @@ public class Main {
 
     private static void printStaffView(ParcelService service) {
         service.printStaffParcels();
-        System.out.println("Free lockers: " + service.getLockers().stream().filter(Locker::isFree).count());
+        System.out.println("Free lockers: " + service.getFreeLockerCount());
     }
 }
