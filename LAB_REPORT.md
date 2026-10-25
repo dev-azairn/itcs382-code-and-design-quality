@@ -126,7 +126,7 @@ Output of the program after your fixes, for the commands `store P1 6501 2`, `pic
 | Resolve unnecessary control coupling | Extract the printParcel, one for staff and one for normal users | 8e3357e79f1b2b3fd514ae45fcce8478ba1f4219 |
 | Stamp coupling and exposed internal collection | Keep the locker list inside ParcelService; return a locker number from storeParcel() and expose only the free-locker count. Move fit/store and matching removal behavior into Locker methods. | c9162a55afc36359dec24258951c0ee2a166cb77 |
 | Mixed service responsibilities | Move file persistence to ParcelRepository and console output to Main; keep parcel and locker operations in ParcelService. | 53b8944e55cfc681eadf0e8b36d07811ced7b765 |
-| Connascence of position in Parcel constructor | Replace the two `String` parameters with distinct `ParcelCode` and `StudentId` record types, preventing callers from accidentally swapping them. |  |
+| Connascence of position in Parcel constructor | Replace the two `String` parameters with distinct `ParcelCode` and `StudentId` record types, preventing callers from accidentally swapping them. | c999a64f14fff860c54d7ed581204cea94f28533 |
 ```text
 code,studentId,size,status
 ```
@@ -141,7 +141,7 @@ code,studentId,size,status
 | Builds with mvn package (yes or no) | yes | yes |
 | Number of classes, interfaces, enums and records | 1 | 11 |
 | SonarQube issues, total | 9 | 25 |
-| SonarQube issues, by rule | 4 | |
+| SonarQube issues, by rule | 3 | 4 |
 | AI review findings in Check 1 | bikeshare-poor-review.md | bikeshare-good-review.md |
 | AI review findings in Check 2 | bikeshare-poor-review.md | bikeshare-good-review.md |
 | Review output file in the reviews folder | bikeshare-poor-review.md | bikeshare-good-review.md |
