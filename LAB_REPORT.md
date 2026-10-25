@@ -1,6 +1,6 @@
 # Lab Report, Code Quality and Design Quality
 
-Repository URL:
+Repository URL: https://github.com/dev-azairn/itcs382-code-and-design-quality
 
 ## Tools
 
@@ -8,7 +8,7 @@ Repository URL:
 | --- | --- |
 | JDK | 26.0.2.1 |
 | Maven | Apache Maven 3.10.0 |
-| IDE | Visual Studio Code 1.142 |
+| IDE | Visual Studio Code 1.142, Cursor 3.22.12 (user setup) |
 | SonarQube for IDE | 6.1.1 |
 | AI tool and exact model | GitHub Copilot  |
 
@@ -80,14 +80,17 @@ Table 2. All findings on the starter code
 | 30 | Parcel.java:7 | `status` is a non-private field. | AI | Non-private field | Yes, because other classes can change the status directly without using Parcel's methods. |
 | 31 | ParcelService.java:20 | `getLockers()` returns the service's internal mutable collection, so callers can change it. | AI | Exposes internal collection | Yes, the caller receives the actual locker list and can add or remove lockers from ParcelService. |
 
-2.1 Name two problems that only the AI review found.
-AI review is able to indicate cohesion-coupling of the code and the error on runtime.
+2.1 Name two problems that only the AI review found. 
+
+**Ans:** AI review is able to indicate cohesion-coupling of the code and the error on runtime.
 
 2.2 Name one problem that only SonarQube found, or write none.
-The SonarQube detects the logging statement suggenstion. The System.out should check to the default logs. However, the problem is the purpose of system uses does not about logging. It is the console app which will be used via console. So, the log default print pattern does not need for this situation.
+
+**Ans:** The SonarQube detects the logging statement suggenstion. The System.out should check to the default logs. However, the problem is the purpose of system uses does not about logging. It is the console app which will be used via console. So, the log default print pattern does not need for this situation.
 
 2.3 Name one AI finding that was wrong or too vague, and explain why. If every finding was right, explain how you checked them.
-Mostly, AI will give the case in the runtime issues and code suggestion. It is great for debugging and mostly was right. I checked the review by looking the code line and analyse following the case. If it makes sense, I let it passed, otherwise I will research about the term it uses, then check it again.
+
+**Ans:** Mostly, AI will give the case in the runtime issues and code suggestion. It is great for debugging and mostly was right. I checked the review by looking the code line and analyse following the case. If it makes sense, I let it passed, otherwise I will research about the term it uses, then check it again.
 
 
 ## Task 3. Fix and check
@@ -96,54 +99,78 @@ Table 3. What you did with each SonarQube issue in Table 1
 
 | No. in Table 1 | Fixed or kept | Commit, or the reason for keeping it |
 | --- | --- | --- |
-| 1 |  | |
+| 1 | kept | No need to use the log formatting. |
+| 2 | kept | No need to use the log formatting. |
+| 3 | kept | No need to use the log formatting. |
+| 4 | kept | No need to use the log formatting. |
+| 5 | fixed | cbaeb797323252327cd523f5dd576dc63a3eca6b |
+| 6 | fixed | cbaeb797323252327cd523f5dd576dc63a3eca6b |
+| 7 | fixed | a5b3cf23eb70579102780d2c8c04951f58336ee9 |
+| 8 | kept | No need to use the log formatting. |
+| 9 | fixed | 96f7e93df6f2be2e2b83d5140001b74436b92f85 |
+| 10 | kept | No need to use the log formatting. |
+| 11 | kept | No need to use the log formatting. |
+| 12 | fixed | 9fc26152866c3eed10b2b55fce0e13308635c3d7 |
+| 13 | fixed | 52e7d448d8ea959c6bbb36a90968ab0fdfda4b7f |
 
-Number of SonarQube issues that remain after your fixes:
+Number of SonarQube issues that remain after your fixes: 7
 
 The two design problems that you fixed
 
 | Design problem (course term) | What you changed | Commit |
 | --- | --- | --- |
-| | | |
-| | | |
-
+| One method do everything | Add more value validation, dissect into small function with one functionality and safe close try-with-resource | 801dc03f6da1fe9b6a21a618354626ff8310da17 |
+| Connascence of convention on status | Add enum Status of string value, change the value type in Percel to enum, design to use and change the value only within the Parcel class. No directly change from outside. | 736721e67d25f99d90201333d5fd82d93e7adfca |
+| Connascence of convention on size number and price | Add public enumeration of size and its price for using a lot in different part. Change related file to use the valid data type. | d16acc314ed338ad78175df9fd3ea528621bb762 |
 Output of the program after your fixes, for the commands `store P1 6501 2`, `pickup P1 5` and `staff`, and the content of parcels.csv:
-
+| Resolve unnecessary control coupling | Extract the printParcel, one for staff and one for normal users | 8e3357e79f1b2b3fd514ae45fcce8478ba1f4219 |
+| Stamp coupling and exposed internal collection | Keep the locker list inside ParcelService; return a locker number from storeParcel() and expose only the free-locker count. Move fit/store and matching removal behavior into Locker methods. | c9162a55afc36359dec24258951c0ee2a166cb77 |
+| Mixed service responsibilities | Move file persistence to ParcelRepository and console output to Main; keep parcel and locker operations in ParcelService. | 53b8944e55cfc681eadf0e8b36d07811ced7b765 |
+| Connascence of position in Parcel constructor | Replace the two `String` parameters with distinct `ParcelCode` and `StudentId` record types, preventing callers from accidentally swapping them. |  |
 ```text
-
+code,studentId,size,status
 ```
 
 ## Task 4. AI-generated poor and good designs
 
 | Item | bikeshare-poor | bikeshare-good |
 | --- | --- | --- |
-| Date | | |
-| AI tool and exact model | | |
-| Prompt (B or C as given, or your changed prompt in full) | | |
-| Builds with mvn package (yes or no) | | |
-| Number of classes, interfaces, enums and records | | |
-| SonarQube issues, total | | |
-| SonarQube issues, by rule | | |
-| AI review findings in Check 1 | | |
-| AI review findings in Check 2 | | |
-| Review output file in the reviews folder | | |
+| Date | 25/10/2026 | 25/10/2026 |
+| AI tool and exact model | Cursor | Cursor |
+| Prompt (B or C as given, or your changed prompt in full) | prompt B with specification | prompt C with specification |
+| Builds with mvn package (yes or no) | yes | yes |
+| Number of classes, interfaces, enums and records | 1 | 11 |
+| SonarQube issues, total | 9 | 25 |
+| SonarQube issues, by rule | 4 | |
+| AI review findings in Check 1 | bikeshare-poor-review.md | bikeshare-good-review.md |
+| AI review findings in Check 2 | bikeshare-poor-review.md | bikeshare-good-review.md |
+| Review output file in the reviews folder | bikeshare-poor-review.md | bikeshare-good-review.md |
 
 4.1 Did SonarQube report any cohesion or coupling problem in bikeshare-poor? Quote the rule and the message if it did.
 
+No, It does not give any cohesion or coupling problem in bikeshare-poor.
+
 4.2 Did the AI review tell the two versions apart? Give one finding for bikeshare-poor that does not appear for bikeshare-good.
 
+No
+
 4.3 Which version would you rather extend with a new member type, such as a visitor who pays 4 baht per minute, and why?
+I will use good version for it has more scalability and easy to change more than bikeshare-good project which is too complex and more line of code.
 
 ## Task 5. Reflection
 
 5.1 What does SonarQube check, and what does it not check? Answer with examples from this lab.
+SonarQube will check the normal of program tasks and good practice for Java Code, for the example, the log statement that SonarQube always indicate the sysout to use the logger instead. However, it cannot check the runtime error and real use. 
 
 5.2 When should you not trust the AI review? Give an example from this lab.
+We should trust the AI from the part that is related the real user use like one method do more than one.
 
 5.3 What will you do differently in Project Phase 2 after this lab?
+I will plan and review the diagram and use case description to understand the code effectively. Then, design the class and method relation by the group avoid using AI at first. Then, let AI to generate the code following the class that we design and review it.
 
 ## AI usage declaration
 
 | AI tool and exact model | Purpose | Files or parts that it produced or changed | How you checked its output |
 | --- | --- | --- | --- |
-| | | | |
+| GitHub Copilot  | General Task and Code Review | All of the parcelpont project  | read the review and analyse |
+| Cursor | Bikeshare Code Genearating, Code Review | All of bikeshare project | check the output that satisfy the specification in prompts.md and check what AI generated before accept the change |
