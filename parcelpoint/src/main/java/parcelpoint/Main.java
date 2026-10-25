@@ -1,5 +1,6 @@
 package parcelpoint;
 
+import java.io.IOException;
 import java.util.OptionalInt;
 import java.util.Scanner;
 
@@ -18,8 +19,12 @@ public class Main {
                     continue;
                 }
 
-                if (processCommand(line, service)) {
-                    break;
+                try {
+                    if (processCommand(line, service)) {
+                        break;
+                    }
+                } catch (IOException e) {
+                    System.err.println("Unable to save parcel data: " + e.getMessage());
                 }
             }
         }
@@ -27,7 +32,7 @@ public class Main {
 
     // process command depending on the input value
     // control coupling, logical cohesion 
-    private static boolean processCommand(String line, ParcelService service) {
+    private static boolean processCommand(String line, ParcelService service) throws IOException {
         String[] words = line.split("\\s+");
         switch (words[0]) {
             case "store":
@@ -38,7 +43,7 @@ public class Main {
                 break;
             case "list":
                 if (hasExpectedArgumentCount(words, 1)) {
-                    service.printWaitingParcels();
+                    printWaitingParcels(service);
                 } else {
                     printInvalidCommand();
                 }
@@ -63,7 +68,7 @@ public class Main {
     }
 
 
-    private static void handleStore(String[] words, ParcelService service) {
+    private static void handleStore(String[] words, ParcelService service) throws IOException {
         if (!hasExpectedArgumentCount(words, 4)) {
             System.out.println("Usage: store <code> <studentId> <size 1-3>");
             return;
@@ -80,13 +85,15 @@ public class Main {
         Parcel parcel = new Parcel(words[1], words[2], size);
         OptionalInt lockerNumber = service.storeParcel(parcel);
         if (lockerNumber.isPresent()) {
+            System.out.println("SMS to " + parcel.getStudentId() + ": parcel "
+                    + parcel.getCode() + " is in locker " + lockerNumber.getAsInt());
             System.out.println("Locker " + lockerNumber.getAsInt());
         } else {
             System.out.println("No free locker");
         }
     }
 
-    private static void handlePickup(String[] words, ParcelService service) {
+    private static void handlePickup(String[] words, ParcelService service) throws IOException {
         if (!hasExpectedArgumentCount(words, 3)) {
             System.out.println("Usage: pickup <code> <days>");
             return;
@@ -116,7 +123,15 @@ public class Main {
     }
 
     private static void printStaffView(ParcelService service) {
-        service.printStaffParcels();
+        for (Parcel parcel : service.getParcels()) {
+            System.out.println(parcel.getCode() + " " + parcel.getStudentId() + " " + parcel.getStatus());
+        }
         System.out.println("Free lockers: " + service.getFreeLockerCount());
+    }
+
+    private static void printWaitingParcels(ParcelService service) {
+        for (Parcel parcel : service.getWaitingParcels()) {
+            System.out.println(parcel.getCode() + " is waiting");
+        }
     }
 }
