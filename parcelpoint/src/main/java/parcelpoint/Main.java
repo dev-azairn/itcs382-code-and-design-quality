@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    // main code
+    // main code to get command and process command on line
     public static void main(String[] args) {
         ParcelService service = new ParcelService();
 
@@ -37,7 +37,7 @@ public class Main {
                 break;
             case "list":
                 if (hasExpectedArgumentCount(words, 1)) {
-                    service.printParcels(false);
+                    service.printWaitingParcels();
                 } else {
                     printInvalidCommand();
                 }
@@ -111,7 +111,7 @@ public class Main {
     }
 
     private static void printStaffView(ParcelService service) {
-        service.printParcels(true);
+        service.printStaffParcels();
         System.out.println("Free lockers: " + service.getLockers().stream().filter(Locker::isFree).count());
     }
 }

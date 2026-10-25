@@ -54,13 +54,17 @@ public class ParcelService {
         return (days - 3) * parcel.getSize().getDailyFee();
     }
 
-    public void printParcels(boolean forStaff) {
+    public void printWaitingParcels() {
         for (Parcel parcel : parcels) {
-            if (forStaff) {
-                System.out.println(parcel.getCode() + " " + parcel.getStudentId() + " " + parcel.getStatus());
-            } else if (parcel.getStatus() == Parcel.Status.STORED) {
+            if (parcel.getStatus() == Parcel.Status.STORED) {
                 System.out.println(parcel.getCode() + " is waiting");
             }
+        }
+    }
+
+    public void printStaffParcels() {
+        for (Parcel parcel : parcels) {
+            System.out.println(parcel.getCode() + " " + parcel.getStudentId() + " " + parcel.getStatus());
         }
     }
 
