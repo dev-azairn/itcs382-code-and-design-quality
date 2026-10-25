@@ -155,17 +155,21 @@ No, It does not give any cohesion or coupling problem in bikeshare-poor.
 No
 
 4.3 Which version would you rather extend with a new member type, such as a visitor who pays 4 baht per minute, and why?
+
 I will use good version for it has more scalability and easy to change more than bikeshare-good project which is too complex and more line of code.
 
 ## Task 5. Reflection
 
 5.1 What does SonarQube check, and what does it not check? Answer with examples from this lab.
+
 SonarQube will check the normal of program tasks and good practice for Java Code, for the example, the log statement that SonarQube always indicate the sysout to use the logger instead. However, it cannot check the runtime error and real use. 
 
 5.2 When should you not trust the AI review? Give an example from this lab.
+
 We should trust the AI from the part that is related the real user use like one method do more than one.
 
 5.3 What will you do differently in Project Phase 2 after this lab?
+
 I will plan and review the diagram and use case description to understand the code effectively. Then, design the class and method relation by the group avoid using AI at first. Then, let AI to generate the code following the class that we design and review it.
 
 ## AI usage declaration
