@@ -20,7 +20,7 @@ public class ParcelRepository {
     public void save(List<Parcel> parcels) throws IOException {
         try (BufferedWriter writer = Files.newBufferedWriter(outputPath)) {
             for (Parcel parcel : parcels) {
-                writer.write(parcel.getCode() + "," + parcel.getStatus());
+                writer.write(parcel.getCode().value() + "," + parcel.getStatus());
                 writer.newLine();
             }
         }

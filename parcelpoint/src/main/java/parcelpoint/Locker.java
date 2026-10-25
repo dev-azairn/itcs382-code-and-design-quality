@@ -30,7 +30,7 @@ public class Locker {
         return true;
     }
 
-    Parcel removeParcel(String code) {
+    Parcel removeParcel(ParcelCode code) {
         if (parcel == null || !parcel.getCode().equals(code)) {
             return null;
         }

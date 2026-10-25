@@ -7,23 +7,23 @@ public class Parcel {
         PICKED_UP
     }
 
-    private String code;
-    private String studentId;
+    private ParcelCode code;
+    private StudentId studentId;
     private ParcelSize size;
     private Status status;
 
-    public Parcel(String code, String studentId, ParcelSize size) {
+    public Parcel(ParcelCode code, StudentId studentId, ParcelSize size) {
         this.code = code;
         this.studentId = studentId;
         this.size = size;
         this.status = Status.NEW;
     }
 
-    public String getCode() {
+    public ParcelCode getCode() {
         return code;
     }
 
-    public String getStudentId() {
+    public StudentId getStudentId() {
         return studentId;
     }
 

@@ -42,7 +42,7 @@ public class ParcelService {
         return OptionalInt.empty();
     }
 
-    public double pickUp(String code, int days) throws IOException {
+    public double pickUp(ParcelCode code, int days) throws IOException {
         for (Locker locker : lockers) {
             Parcel parcel = locker.removeParcel(code);
             if (parcel != null) {

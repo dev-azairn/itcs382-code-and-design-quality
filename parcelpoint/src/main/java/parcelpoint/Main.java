@@ -82,11 +82,11 @@ public class Main {
             return;
         }
 
-        Parcel parcel = new Parcel(words[1], words[2], size);
+        Parcel parcel = new Parcel(new ParcelCode(words[1]), new StudentId(words[2]), size);
         OptionalInt lockerNumber = service.storeParcel(parcel);
         if (lockerNumber.isPresent()) {
-            System.out.println("SMS to " + parcel.getStudentId() + ": parcel "
-                    + parcel.getCode() + " is in locker " + lockerNumber.getAsInt());
+            System.out.println("SMS to " + parcel.getStudentId().value() + ": parcel "
+                    + parcel.getCode().value() + " is in locker " + lockerNumber.getAsInt());
             System.out.println("Locker " + lockerNumber.getAsInt());
         } else {
             System.out.println("No free locker");
@@ -111,7 +111,7 @@ public class Main {
             return;
         }
 
-        System.out.println("Fee: " + service.pickUp(words[1], days));
+        System.out.println("Fee: " + service.pickUp(new ParcelCode(words[1]), days));
     }
 
     private static boolean hasExpectedArgumentCount(String[] words, int expectedCount) {
@@ -124,14 +124,15 @@ public class Main {
 
     private static void printStaffView(ParcelService service) {
         for (Parcel parcel : service.getParcels()) {
-            System.out.println(parcel.getCode() + " " + parcel.getStudentId() + " " + parcel.getStatus());
+            System.out.println(parcel.getCode().value() + " " + parcel.getStudentId().value()
+                    + " " + parcel.getStatus());
         }
         System.out.println("Free lockers: " + service.getFreeLockerCount());
     }
 
     private static void printWaitingParcels(ParcelService service) {
         for (Parcel parcel : service.getWaitingParcels()) {
-            System.out.println(parcel.getCode() + " is waiting");
+            System.out.println(parcel.getCode().value() + " is waiting");
         }
     }
 }
