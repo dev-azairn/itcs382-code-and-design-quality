@@ -9,10 +9,10 @@ public class Parcel {
 
     private String code;
     private String studentId;
-    private int size;          // 1 = small, 2 = medium, 3 = large
+    private ParcelSize size;
     private Status status;
 
-    public Parcel(String code, String studentId, int size) {
+    public Parcel(String code, String studentId, ParcelSize size) {
         this.code = code;
         this.studentId = studentId;
         this.size = size;
@@ -27,7 +27,7 @@ public class Parcel {
         return studentId;
     }
 
-    public int getSize() {
+    public ParcelSize getSize() {
         return size;
     }
 

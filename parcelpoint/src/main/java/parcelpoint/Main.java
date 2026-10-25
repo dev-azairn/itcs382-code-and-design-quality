@@ -68,14 +68,10 @@ public class Main {
             return;
         }
 
-        int size;
+        ParcelSize size;
         try {
-            size = Integer.parseInt(words[3]);
-        } catch (NumberFormatException e) {
-            System.out.println("Size must be a number from 1 to 3");
-            return;
-        }
-        if (size < 1 || size > 3) {
+            size = ParcelSize.fromCode(Integer.parseInt(words[3]));
+        } catch (IllegalArgumentException e) {
             System.out.println("Size must be a number from 1 to 3");
             return;
         }
