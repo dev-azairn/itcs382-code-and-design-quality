@@ -122,11 +122,12 @@ The two design problems that you fixed
 | One method do everything | Add more value validation, dissect into small function with one functionality and safe close try-with-resource | 801dc03f6da1fe9b6a21a618354626ff8310da17 |
 | Connascence of convention on status | Add enum Status of string value, change the value type in Percel to enum, design to use and change the value only within the Parcel class. No directly change from outside. | 736721e67d25f99d90201333d5fd82d93e7adfca |
 | Connascence of convention on size number and price | Add public enumeration of size and its price for using a lot in different part. Change related file to use the valid data type. | d16acc314ed338ad78175df9fd3ea528621bb762 |
-Output of the program after your fixes, for the commands `store P1 6501 2`, `pickup P1 5` and `staff`, and the content of parcels.csv:
 | Resolve unnecessary control coupling | Extract the printParcel, one for staff and one for normal users | 8e3357e79f1b2b3fd514ae45fcce8478ba1f4219 |
 | Stamp coupling and exposed internal collection | Keep the locker list inside ParcelService; return a locker number from storeParcel() and expose only the free-locker count. Move fit/store and matching removal behavior into Locker methods. | c9162a55afc36359dec24258951c0ee2a166cb77 |
 | Mixed service responsibilities | Move file persistence to ParcelRepository and console output to Main; keep parcel and locker operations in ParcelService. | 53b8944e55cfc681eadf0e8b36d07811ced7b765 |
 | Connascence of position in Parcel constructor | Replace the two `String` parameters with distinct `ParcelCode` and `StudentId` record types, preventing callers from accidentally swapping them. | c999a64f14fff860c54d7ed581204cea94f28533 |
+
+Output of the program after your fixes, for the commands `store P1 6501 2`, `pickup P1 5` and `staff`, and the content of parcels.csv:
 ```text
 code,studentId,size,status
 ```
